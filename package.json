@@ -1,0 +1,12 @@
+{
+  "name": "membrain",
+  "version": "1.0.0",
+  "description": "MemBrain — AI-Powered Personal Second Brain & Memory Sanctuary",
+  "private": true,
+  "scripts": {
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build:frontend": "cd frontend && npm run build"
+  },
+  "license": "MIT"
+}
