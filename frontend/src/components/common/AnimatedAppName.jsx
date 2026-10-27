@@ -50,11 +50,10 @@ const AnimatedLetter = memo(function AnimatedLetter({ char, isTargetCapital }) {
   return (
     <span
       style={{ opacity }}
-      className={`inline-block transition-opacity duration-1000 ease-in-out will-change-[opacity] select-none ${
-        displayedIsUpper
+      className={`inline-block transition-opacity duration-1000 ease-in-out will-change-[opacity] select-none ${displayedIsUpper
           ? 'text-white font-medium drop-shadow-[0_0_8px_rgba(255,255,255,0.25)]'
           : 'text-[#E3E3E3]'
-      }`}
+        }`}
     >
       {displayedChar}
     </span>
