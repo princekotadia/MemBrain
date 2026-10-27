@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'http://localhost:3000/try';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/try';
 
 export const THOUGHT_STARTERS = [
   { label: 'Random Idea', emoji: '💡' },
