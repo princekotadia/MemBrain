@@ -1,107 +1,135 @@
 # MemBrain 🧠
 ### AI-Powered Personal Second Brain & Memory Sanctuary
 
-> A distraction-free luxury dark-mode sanctuary to capture raw, unstructured thoughts, recall them semantically through interactive AI conversation, and trace your mental timeline.
+---
+
+## 📌 Problem Statement
+
+In today's fast-paced digital world, people constantly generate ideas, daily reflections, project logs, and insights. However, traditional note-taking tools fail them in three fundamental ways:
+
+1. **High Friction in Capture:** Most productivity tools demand rigid hierarchies, folders, and tags up front, which interrupts the creative flow and discourages spontaneous writing.
+2. **The "Note Graveyard" Problem:** As notes accumulate, they become difficult to rediscover. Keyword-based search fails when you cannot recall the exact words you used weeks or months ago.
+3. **Context-Blind AI Assistants:** Standard conversational AI models have no memory of your life, habits, past challenges, or creative breakthroughs, requiring you to re-explain your background in every prompt.
 
 ---
 
-## ✨ Features
+## 👥 Target Users
 
-- **✍️ Brain Dump Writing Sanctuary**  
-  A fluid, auto-expanding composer box with mood pills and thought starters. Upon saving, raw entries are stored in PostgreSQL while Google Gemini deconstructs your unstructured stream into standalone atomic insights and indexes them into Pinecone.
+MemBrain is built for anyone who thinks for a living or values continuous self-reflection:
 
-- **💬 Memory Chat (Recall & Reflect)**  
-  A dual-memory conversational interface combining:
-  - **Short-Term Memory:** Previous conversation turns preserved chronologically in PostgreSQL.
-  - **Long-Term Memory:** User-isolated semantic retrieval from Pinecone vector database.
-  - Full Markdown rendering with syntax highlighting, custom memory badge chips, and auto-scrolling.
-
-- **📅 Timeline History**  
-  Chronologically grouped journal reflections by date with an interactive timeline bar, node dots, and click-to-expand preview cards.
-
-- **🔒 Strict Multi-Tenancy & User Isolation**  
-  Every vector record is isolated inside Pinecone using user-dedicated namespaces (`index.namespace(userId)`) and filter constraints (`userId = $userId`). Users can never search or access notes from other accounts.
-
-- **🛡️ Secure JWT Cookie Authentication**  
-  PostgreSQL-backed authentication using `httpOnly` cookies, bcrypt password hashing, input sanitization, and seamless session persistence.
-
-- **🎨 Modern Typography & Dynamic Aesthetics**  
-  Features Google Font **Major Mono Display** with a real-time periodic letter-pulse animation on the brand title, ambient diffused background lighting, and subtle micro-interactions.
+- **Developers & Engineers:** To quickly record debugging sessions, architectural epiphanies, and project updates without breaking focus.
+- **Writers & Content Creators:** To capture fragments of dialogue, outlines, and raw ideas, and later synthesize them through conversation.
+- **Journalers & Reflective Thinkers:** To maintain an honest, unstructured mental diary that uncovers mood patterns, habits, and recurring thoughts.
+- **Knowledge Workers & Researchers:** Who need a private "second brain" that acts as an intelligent sounding board capable of connecting disparate concepts over time.
 
 ---
 
-## 🛠️ Tech Stack
+## 💡 Solution
+
+**MemBrain** is a cognitive companion that combines **frictionless stream-of-consciousness journaling** with **automatic semantic indexing** and a **dual-memory conversational AI**.
+
+- **Zero-Filing Capture:** Users simply dump raw thoughts into an auto-expanding writing sanctuary. No folders, no tags, and no organization required.
+- **Autonomous Atomic Decomposition:** Upon saving, the backend uses Google Gemini to deconstruct the raw thought into standalone atomic insight chunks.
+- **Semantic Vector Storage:** Each chunk is converted into high-dimensional vector embeddings and indexed into a dedicated user namespace in Pinecone.
+- **Dual-Memory Conversational Retrieval:** When chatting with MemBrain in *Recall & Reflect*, the system merges **short-term context** (recent messages from PostgreSQL) with **long-term memory** (semantically relevant past journal chunks from Pinecone) to deliver deeply personal, context-aware answers.
+
+---
+
+## ⚡ Key Features
+
+| Feature | Description |
+|---|---|
+| **✍️ Brain Dump Sanctuary** | Distraction-free, auto-expanding composer with live word & character telemetry, mood/starter pills, and keyboard shortcut (`⌘/Ctrl + Enter`) saving. |
+| **💬 Memory Chat (Recall & Reflect)** | Conversational interface with dual-memory retrieval. Answers cite memories using visual badge counters. Full Markdown, bullet lists, and code blocks supported. |
+| **📅 Timeline History** | Visual timeline of raw journal entries grouped chronologically by day with custom node markers and click-to-expand modal reading cards. |
+| **🔒 Strict Per-User Isolation** | Multi-tenant isolation at both the database level (PostgreSQL foreign keys) and vector level (Pinecone user-specific namespaces + metadata filters). |
+| **🛡️ Secure JWT Authentication** | Cookie-based session authentication with bcrypt-hashed credentials, profile hydration, and one-click demo testing. |
+| **🎨 Dynamic Typography & Micro-Interactions** | Styled with Google Font *Major Mono Display*, featuring real-time typographic letter-casing pulse animations, diffused ambient glow blobs, and tailored dark aesthetics. |
+| **🗑️ Chat Conversation Management** | Delete previous chat sessions with instant UI feedback and database cascade deletion of message threads. |
+
+---
+
+## 💻 Tech Stack
 
 ### Frontend
-- **React 18** + **Vite**
-- **Tailwind CSS** (Custom dark theme & Gemini aesthetics)
-- **Lucide React** (Minimalist iconography)
-- **React Markdown** + **Remark GFM** (Rich text synthesis)
-- **Major Mono Display** (Google Web Font)
+- **Framework:** React 18 + Vite
+- **Styling:** Tailwind CSS (Custom dark theme & Gemini-inspired ambient lighting)
+- **Typography:** Major Mono Display (Google Fonts)
+- **Icons:** Lucide React
+- **Markdown Rendering:** React Markdown + Remark GFM
 
 ### Backend
-- **Node.js** & **Express 5**
-- **PostgreSQL** (`pg` connection pool with cascading foreign keys)
-- **Pinecone Vector Database** (Hosted embeddings with `multilingual-e5-large`)
-- **Google Gemini API** (`@google/genai`)
-- **JSON Web Tokens (JWT)** & **bcrypt**
-- **cookie-parser** & **CORS**
+- **Runtime & Server:** Node.js + Express 5
+- **Authentication:** JSON Web Tokens (JWT) via `httpOnly` cookies + `bcrypt`
+- **Database Client:** `pg` (node-postgres connection pool)
+- **Security & Utilities:** `cookie-parser`, `cors`, `dotenv`
+
+### Data & AI Infrastructure
+- **Relational Database:** PostgreSQL (Structured tables: `users`, `chat_sessions`, `messages`, `journal_entries`)
+- **Vector Database:** Pinecone (`braindump1` index on AWS `us-east-1`, embeddings model: `multilingual-e5-large`)
+- **Large Language Model:** Google Gemini 2.5 / Flash (`@google/genai`)
 
 ---
 
-## 📂 Project Structure
+## 🏛️ Architecture
 
+```mermaid
+flowchart TD
+    subgraph Client ["Frontend (React 18 + Vite)"]
+        UI["Brain Dump / Memory Chat / Timeline"]
+        Auth["JWT Cookie Auth State"]
+    end
+
+    subgraph Server ["Backend (Node.js + Express 5)"]
+        Router["/try API Routes"]
+        AuthMW["verifyToken Middleware"]
+        InputCtrl["Input Controller"]
+        ChatCtrl["Chat Controller"]
+        AuthCtrl["Auth Controller"]
+    end
+
+    subgraph Storage ["Databases & External AI"]
+        PG[("PostgreSQL\n(Users, Chat Sessions, Messages, Raw Journals)")]
+        Pinecone[("Pinecone Vector DB\n(Namespaced Semantic Embeddings)")]
+        Gemini["Google Gemini API\n(Idea Deconstruction & Context Synthesis)"]
+    end
+
+    UI <-->|HTTP / Credentials| Router
+    Router --> AuthMW
+    AuthMW --> InputCtrl
+    AuthMW --> ChatCtrl
+    AuthMW --> AuthCtrl
+
+    InputCtrl -->|Save Raw Note| PG
+    InputCtrl -->|Deconstruct Ideas| Gemini
+    InputCtrl -->|Upsert Chunks to User Namespace| Pinecone
+
+    ChatCtrl -->|Fetch Short-Term History| PG
+    ChatCtrl -->|Semantic Search across User Namespace| Pinecone
+    ChatCtrl -->|Synthesize History + Context Chunks| Gemini
+    ChatCtrl -->|Save User & AI Turns| PG
+
+    AuthCtrl <-->|Bcrypt Verify / User Records| PG
 ```
-brn-dmp/
-├── backend/
-│   ├── controllers/
-│   │   ├── auth.controller.js       # Register, login, profile, logout
-│   │   ├── chat.controller.js       # Chat sessions, messages, cascade delete
-│   │   └── input.controller.js      # Brain dump capture, search, timeline
-│   ├── middleware/
-│   │   └── auth.middleware.js       # JWT cookie authentication & UUID validator
-│   ├── routes/
-│   │   └── route.js                 # Authenticated API endpoints
-│   ├── db.js                        # PostgreSQL connection pool & schema verify
-│   ├── schema.sql                   # Database tables, cascade rules, indexes
-│   ├── .env.example                 # Template for required environment variables
-│   ├── index.js                     # Express server entry point
-│   └── package.json
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── chat/                # ChatSidebar, ChatMessageList, ChatInput
-│   │   │   ├── common/              # AmbientBackground, Header, Toast, UserMenu, AnimatedAppName
-│   │   │   └── history/             # MemoryModal
-│   │   ├── constants/               # API URL, prompt presets, thought starters
-│   │   ├── pages/                   # AuthPage, BrainDumpPage, MemoryChatPage, TimelinePage
-│   │   ├── App.jsx                  # Main application orchestrator
-│   │   ├── main.jsx                 # React root mount
-│   │   └── index.css                # Tailwind directives & dark scrollbars
-│   ├── index.html                   # HTML document & Google font imports
-│   ├── tailwind.config.js
-│   ├── vite.config.js
-│   └── package.json
-├── .gitignore                       # Ignored build files, node_modules, and secrets
-├── LICENSE                          # MIT License
-├── package.json                     # Root scripts coordinator
-└── README.md
-```
+
+### The Dual-Memory Retrieval Pipeline
+1. **Short-Term Memory:** Fetches recent conversation turns from PostgreSQL (`messages` filtered by `session_id` ordered chronologically).
+2. **Long-Term Memory:** Queries Pinecone scoped strictly to `index.namespace(userId)` with top-K cosine similarity search to retrieve relevant past journal chunks.
+3. **LLM Synthesis:** Injects retrieved past memories as system context alongside conversation history, prompting Gemini to answer the user's inquiry with personal recall.
 
 ---
 
-## 🚀 Getting Started
+## ⚙️ Local Setup
 
 ### Prerequisites
-- [Node.js](https://nodejs.org/) (v18 or higher)
-- [PostgreSQL](https://www.postgresql.org/) (Local instance or hosted on Supabase / Neon / RDS)
-- [Pinecone Account](https://www.pinecone.io/) (Free serverless tier)
-- [Google AI Studio API Key](https://aistudio.google.com/)
+- **Node.js** (v18.0.0 or higher)
+- **PostgreSQL** (running locally or a cloud database URL)
+- **Pinecone Account** with an index named `braindump1`
+- **Google AI Studio API Key** ([Get key](https://aistudio.google.com/))
 
 ---
 
-### 1. Clone the Repository
-
+### Step 1: Clone the Repository
 ```bash
 git clone https://github.com/your-username/membrain.git
 cd membrain
@@ -109,108 +137,96 @@ cd membrain
 
 ---
 
-### 2. Database Setup (PostgreSQL)
-
-Create a PostgreSQL database named `braindump` (or your preferred name):
+### Step 2: Initialize PostgreSQL Database
+Create a database named `braindump` and execute the schema:
 
 ```bash
+# Using PostgreSQL CLI
 createdb braindump
-```
-
-Run the initialization script from `backend/schema.sql`:
-
-```bash
 psql -d braindump -f backend/schema.sql
 ```
 
----
-
-### 3. Backend Setup
-
-Navigate into the backend directory and install dependencies:
-
-```bash
-cd backend
-npm install
-```
-
-Create your `.env` file using the template:
-
-```bash
-cp .env.example .env
-```
-
-Configure your `.env` file:
-
-```env
-PORT=3000
-CLIENT_URL=http://localhost:5173
-
-# PostgreSQL connection string
-DATABASE_URL=postgresql://postgres:your_password@localhost:5432/braindump
-
-# JWT Secret for cookie sessions
-JWT_SECRET=your_super_secret_jwt_key_here
-
-# Google Gemini API key
-GENAI_API_KEY=your_gemini_api_key_here
-
-# Pinecone API key
-PINECONE_API_KEY=your_pinecone_api_key_here
-```
-
-Start the backend server in development mode:
-
-```bash
-npm run dev
-```
-
-The API will be running at `http://localhost:3000`.
+The schema sets up tables (`users`, `chat_sessions`, `messages`, `journal_entries`), cascade foreign key rules, performance indexes, and a default seed user (`demo@secondbrain.local`).
 
 ---
 
-### 4. Frontend Setup
+### Step 3: Configure and Start the Backend
 
-Open a new terminal tab, navigate into the frontend directory, and install dependencies:
+1. Navigate to the backend directory:
+   ```bash
+   cd backend
+   npm install
+   ```
 
-```bash
-cd frontend
-npm install
-```
+2. Copy the environment variables template:
+   ```bash
+   cp .env.example .env
+   ```
 
-Start the Vite development server:
+3. Fill in your credentials in `backend/.env` (see table below).
 
-```bash
-npm run dev
-```
-
-Visit `http://localhost:5173` in your browser.
-
----
-
-## 📡 API Endpoints
-
-All endpoints are mounted under `/try`:
-
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| `POST` | `/try/auth/register` | Public | Create a new user account |
-| `POST` | `/try/auth/login` | Public | Sign in and receive `httpOnly` JWT cookie |
-| `GET` | `/try/auth/profile` | JWT | Get authenticated user profile |
-| `POST` | `/try/auth/logout` | JWT | Clear auth cookie |
-| `POST` | `/try/input` | JWT | Save raw thought, chunk with Gemini, upsert to Pinecone |
-| `POST` | `/try/chat` | JWT | Query hybrid memory (PostgreSQL + Pinecone) |
-| `GET` | `/try/sessions/:userId` | JWT | Get recent chat sessions for the user |
-| `GET` | `/try/messages/:sessionId`| JWT | Get message history for a specific session |
-| `DELETE`| `/try/sessions/:sessionId`| JWT | Delete chat session & cascade remove messages |
-| `GET` | `/try/journals/:userId` | JWT | Fetch raw journal thoughts for timeline |
+4. Start the backend development server:
+   ```bash
+   npm run dev
+   ```
+   *The backend will boot up at `http://localhost:3000`.*
 
 ---
 
-## 🛡️ Security & Privacy
+### Step 4: Configure and Start the Frontend
 
-- **Never Commit Secrets:** Real API keys and connection credentials are kept exclusively in `backend/.env`, which is strictly ignored by `.gitignore`.
-- **Cross-User Data Protection:** All database and vector requests verify that the authenticated `req.user.id` matches the session owner or target dataset before querying.
+1. Open a new terminal tab and navigate to the frontend directory:
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+2. Start the Vite development server:
+   ```bash
+   npm run dev
+   ```
+
+3. Open your browser and navigate to:
+   ```
+   http://localhost:5173
+   ```
+
+---
+
+## 🔐 Environment Variables
+
+All sensitive values are stored in `backend/.env`. An example template is provided in `backend/.env.example`:
+
+| Variable | Description | Example / Default |
+|---|---|---|
+| `PORT` | Port for the Express server to listen on | `3000` |
+| `CLIENT_URL` | Allowed CORS origin for the frontend | `http://localhost:5173` |
+| `DATABASE_URL` | Full PostgreSQL connection string | `postgresql://postgres:password@localhost:5432/braindump` |
+| `JWT_SECRET` | Secret key used to sign and verify session tokens | `super_secret_jwt_key_here` |
+| `GENAI_API_KEY` | Google Gemini API key for embeddings and completions | `AIzaSy...` |
+| `PINECONE_API_KEY`| API key for Pinecone vector database | `pcsk_...` |
+
+> **Security Note:** Never commit `.env` to Git. The repository includes pre-configured `.gitignore` rules that prevent environment files from being tracked.
+
+---
+
+## 🌐 Deployment
+
+### 1. Database Deployment
+- **PostgreSQL:** Deploy on [Supabase](https://supabase.com/), [Neon](https://neon.tech/), or [AWS RDS]. Run the contents of `backend/schema.sql` via the provider's SQL editor.
+- **Pinecone:** Create a Serverless Index named `braindump1` (AWS, region `us-east-1`, model: `multilingual-e5-large`, field map: `chunk_text`).
+
+### 2. Backend Deployment (Render, Railway, Fly.io, or AWS EC2)
+1. Set the root directory or working directory to `backend/`.
+2. Set the build command to `npm install` and start command to `npm start`.
+3. Add the production environment variables (`DATABASE_URL`, `JWT_SECRET`, `GENAI_API_KEY`, `PINECONE_API_KEY`, `PORT`, `CLIENT_URL`).
+4. Ensure cookie settings in `auth.controller.js` use `sameSite: 'none'` and `secure: true` when frontend and backend run on different domains over HTTPS.
+
+### 3. Frontend Deployment (Vercel, Netlify, or Cloudflare Pages)
+1. Set the root directory to `frontend/`.
+2. Build command: `npm run build`
+3. Output directory: `dist`
+4. Update `API_BASE_URL` in `frontend/src/constants/index.js` to point to your deployed backend domain (e.g., `https://api.yourdomain.com/try`).
 
 ---
 
