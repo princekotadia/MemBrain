@@ -60,8 +60,8 @@ export default function AnimatedAppName({ className = '' }) {
             const nextActive = new Set(currentActive);
             chosen.forEach((idx) => {
               nextActive.add(idx);
-              // Each letter has an independent lifespan between 1.6s and 2.4s
-              const lifespan = 1600 + Math.random() * 800;
+              // Doubled stay time: stays capitalized for 3.4s - 4.8s before reverting
+              const lifespan = 3400 + Math.random() * 1400;
               scheduleLetterDecay(idx, lifespan);
             });
 
@@ -72,8 +72,8 @@ export default function AnimatedAppName({ className = '' }) {
         return currentActive;
       });
 
-      // Schedule next check in 900ms - 1500ms (in the meantime)
-      const nextSpawnDelay = 900 + Math.random() * 600;
+      // Change in not less than 3 seconds (3.0s - 4.5s interval between changes)
+      const nextSpawnDelay = 3000 + Math.random() * 1500;
       spawnTimeoutId = setTimeout(() => {
         if (isMountedRef.current) {
           runSpawnCycle();
@@ -81,8 +81,8 @@ export default function AnimatedAppName({ className = '' }) {
       }, nextSpawnDelay);
     };
 
-    // Initial trigger shortly after mount
-    spawnTimeoutId = setTimeout(runSpawnCycle, 400);
+    // Initial trigger after mount (at least 1.5s)
+    spawnTimeoutId = setTimeout(runSpawnCycle, 1500);
 
     return () => {
       isMountedRef.current = false;
@@ -101,9 +101,8 @@ export default function AnimatedAppName({ className = '' }) {
         return (
           <span
             key={index}
-            className={`transition-colors duration-200 inline-block ${
-              isCapital ? 'text-white font-medium' : 'text-[#E3E3E3]'
-            }`}
+            className={`transition-all duration-500 inline-block ${isCapital ? 'text-white font-medium drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]' : 'text-[#E3E3E3]'
+              }`}
           >
             {displayedChar}
           </span>
