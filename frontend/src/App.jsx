@@ -240,33 +240,6 @@ export default function App() {
     }
   };
 
-  const handleUseDemoAccount = async () => {
-    setAuthError(null);
-    setIsAuthSubmitting(true);
-    try {
-      const res = await fetch(`${API_BASE_URL}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ email: 'demo@secondbrain.local', password: 'password123' }),
-      });
-      const data = await res.json();
-      if (!res.ok || !data.success) {
-        throw new Error(data.message || 'Demo login failed');
-      }
-      setUser(data.user);
-      setActiveView('dump');
-      setToast({
-        type: 'success',
-        text: 'Signed in as Demo User!',
-      });
-    } catch (err) {
-      setAuthError(err.message || 'Demo login failed');
-    } finally {
-      setIsAuthSubmitting(false);
-    }
-  };
-
   // ── Session Handlers ─────────────────────────────────────────────────────
   const loadSession = async (selectedSessionId) => {
     setActiveView('chat');
@@ -560,7 +533,6 @@ export default function App() {
         onCloseToast={() => setToast(null)}
         onLogin={handleLogin}
         onSignup={handleSignup}
-        onUseDemoAccount={handleUseDemoAccount}
         isSubmitting={isAuthSubmitting}
         authError={authError}
         setAuthError={setAuthError}

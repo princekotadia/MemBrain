@@ -9,7 +9,6 @@ export default function AuthPage({
   onCloseToast,
   onLogin,
   onSignup,
-  onUseDemoAccount,
   isSubmitting,
   authError,
   setAuthError,
@@ -178,17 +177,6 @@ export default function AuthPage({
             )}
           </button>
         </form>
-
-        {/* Quick Demo Login Option */}
-        <div className="mt-6 pt-4 border-t border-[#333538]/60 text-center">
-          <button
-            type="button"
-            onClick={onUseDemoAccount}
-            className="text-xs text-[#9AA0A6] hover:text-[#4E95FF] transition-colors cursor-pointer"
-          >
-            Quick test with Demo Account (demo@secondbrain.local)
-          </button>
-        </div>
       </div>
     </div>
   );
