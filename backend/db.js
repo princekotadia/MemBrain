@@ -1,5 +1,11 @@
+import dns from 'node:dns';
 import pg from 'pg';
 import 'dotenv/config';
+
+// Prioritize IPv4 over IPv6 on cloud hosts like Render
+if (dns.setDefaultResultOrder) {
+  dns.setDefaultResultOrder('ipv4first');
+}
 
 const { Pool } = pg;
 
@@ -13,16 +19,16 @@ const isProduction =
 
 const poolConfig = process.env.DATABASE_URL
   ? {
-      connectionString: process.env.DATABASE_URL,
-      ssl: isProduction ? { rejectUnauthorized: false } : false,
-    }
+    connectionString: process.env.DATABASE_URL,
+    ssl: isProduction ? { rejectUnauthorized: false } : false,
+  }
   : {
-      host: process.env.PGHOST || 'localhost',
-      port: process.env.PGPORT ? parseInt(process.env.PGPORT, 10) : 5432,
-      user: process.env.PGUSER || 'postgres',
-      password: process.env.PGPASSWORD || '',
-      database: process.env.PGDATABASE || 'braindump',
-    };
+    host: process.env.PGHOST || 'localhost',
+    port: process.env.PGPORT ? parseInt(process.env.PGPORT, 10) : 5432,
+    user: process.env.PGUSER || 'postgres',
+    password: process.env.PGPASSWORD || '',
+    database: process.env.PGDATABASE || 'braindump',
+  };
 
 const pool = new Pool(poolConfig);
 

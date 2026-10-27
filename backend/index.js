@@ -1,8 +1,14 @@
+import dns from 'node:dns';
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import 'dotenv/config';
 import inputRoutes from './routes/route.js';
+
+// Prioritize IPv4 over IPv6 to prevent ENETUNREACH errors on cloud hosts like Render
+if (dns.setDefaultResultOrder) {
+  dns.setDefaultResultOrder('ipv4first');
+}
 
 const app = express();
 
