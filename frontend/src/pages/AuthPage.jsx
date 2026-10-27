@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Eye, EyeOff, Loader2, AlertCircle } from 'lucide-react';
+import { Eye, EyeOff, Loader2, AlertCircle, Mail, Lock, User } from 'lucide-react';
 import AmbientBackground from '../components/common/AmbientBackground';
 import Toast from '../components/common/Toast';
 import AnimatedAppName from '../components/common/AnimatedAppName';
@@ -108,59 +108,60 @@ export default function AuthPage({
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3.5">
           {authMode === 'signup' && (
-            <div>
-              <label className="block text-xs font-medium text-[#C4C7C5] mb-1.5">
-                Full Name
-              </label>
+            <div className="relative flex items-center group">
+              <User
+                size={17}
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8E918F] group-focus-within:text-[#E3E3E3] transition-colors pointer-events-none"
+              />
               <input
                 type="text"
                 required
                 value={signupName}
                 onChange={(e) => setSignupName(e.target.value)}
-                placeholder="e.g. Bruce Wayne"
-                className="bg-[#1E1F20] border border-[#333538] focus:border-[#4E95FF]/60 rounded-2xl px-4 py-3 text-sm text-[#E3E3E3] placeholder-[#5F6368] outline-none transition-all w-full"
+                placeholder="Full Name"
+                className="bg-[#1E1F20] border border-[#333538] focus:border-[#4E95FF]/60 rounded-2xl pl-11 pr-4 py-3 text-sm text-[#E3E3E3] placeholder-[#8E918F] outline-none transition-all w-full"
               />
             </div>
           )}
 
-          <div>
-            <label className="block text-xs font-medium text-[#C4C7C5] mb-1.5">
-              Email Address
-            </label>
+          <div className="relative flex items-center group">
+            <Mail
+              size={17}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8E918F] group-focus-within:text-[#E3E3E3] transition-colors pointer-events-none"
+            />
             <input
               type="email"
               required
               value={authEmail}
               onChange={(e) => setAuthEmail(e.target.value)}
-              placeholder="name@example.com"
-              className="bg-[#1E1F20] border border-[#333538] focus:border-[#4E95FF]/60 rounded-2xl px-4 py-3 text-sm text-[#E3E3E3] placeholder-[#5F6368] outline-none transition-all w-full"
+              placeholder="Email"
+              className="bg-[#1E1F20] border border-[#333538] focus:border-[#4E95FF]/60 rounded-2xl pl-11 pr-4 py-3 text-sm text-[#E3E3E3] placeholder-[#8E918F] outline-none transition-all w-full"
             />
           </div>
 
-          <div>
-            <label className="block text-xs font-medium text-[#C4C7C5] mb-1.5">
-              Password
-            </label>
-            <div className="relative">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                required
-                value={authPassword}
-                onChange={(e) => setAuthPassword(e.target.value)}
-                placeholder={authMode === 'signup' ? 'At least 6 characters' : 'Enter your password'}
-                className="bg-[#1E1F20] border border-[#333538] focus:border-[#4E95FF]/60 rounded-2xl pl-4 pr-11 py-3 text-sm text-[#E3E3E3] placeholder-[#5F6368] outline-none transition-all w-full"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#8E918F] hover:text-[#E3E3E3] transition-colors p-1 cursor-pointer"
-                title={showPassword ? 'Hide password' : 'Show password'}
-              >
-                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-              </button>
-            </div>
+          <div className="relative flex items-center group">
+            <Lock
+              size={17}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8E918F] group-focus-within:text-[#E3E3E3] transition-colors pointer-events-none"
+            />
+            <input
+              type={showPassword ? 'text' : 'password'}
+              required
+              value={authPassword}
+              onChange={(e) => setAuthPassword(e.target.value)}
+              placeholder="Password"
+              className="bg-[#1E1F20] border border-[#333538] focus:border-[#4E95FF]/60 rounded-2xl pl-11 pr-11 py-3 text-sm text-[#E3E3E3] placeholder-[#8E918F] outline-none transition-all w-full"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#8E918F] hover:text-[#E3E3E3] transition-colors p-1 cursor-pointer"
+              title={showPassword ? 'Hide password' : 'Show password'}
+            >
+              {showPassword ? <EyeOff size={17} /> : <Eye size={17} />}
+            </button>
           </div>
 
           <button
