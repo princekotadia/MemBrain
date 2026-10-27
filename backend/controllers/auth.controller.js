@@ -132,7 +132,11 @@ export const login = async (req, res) => {
     const payload = { id: user.id };
     const jwtSecret = process.env.JWT_SECRET || 'membrain_super_secret_jwt_key_2026_secure';
     const jwtToken = jwt.sign(payload, jwtSecret, { expiresIn: '7d' });
-    const isProduction = process.env.NODE_ENV === 'production';
+    const isProduction =
+      process.env.NODE_ENV === 'production' ||
+      Boolean(process.env.RENDER) ||
+      Boolean(process.env.RAILWAY_ENVIRONMENT) ||
+      Boolean(process.env.VERCEL);
 
     return res
       .cookie('jwtToken', jwtToken, {
@@ -192,7 +196,11 @@ export const profile = async (req, res) => {
  */
 export const logout = async (req, res) => {
   try {
-    const isProduction = process.env.NODE_ENV === 'production';
+    const isProduction =
+      process.env.NODE_ENV === 'production' ||
+      Boolean(process.env.RENDER) ||
+      Boolean(process.env.RAILWAY_ENVIRONMENT) ||
+      Boolean(process.env.VERCEL);
     return res
       .clearCookie('jwtToken', {
         httpOnly: true,
