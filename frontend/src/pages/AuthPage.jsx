@@ -167,7 +167,7 @@ export default function AuthPage({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3 rounded-full font-medium text-sm bg-[#E3E3E3] text-black hover:bg-white shadow-[0_0_20px_rgba(255,255,255,0.15)] transition-all cursor-pointer !mt-14 disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-3 rounded-full font-medium text-sm bg-[#E3E3E3] text-black hover:bg-white shadow-[0_0_20px_rgba(255,255,255,0.15)] transition-all cursor-pointer !mt-8 disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {isSubmitting ? (
               <Loader2 size={16} className="animate-spin text-black" />
