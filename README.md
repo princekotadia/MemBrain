@@ -1,6 +1,18 @@
 # MemBrain 🧠
 ### AI-Powered Personal Second Brain & Memory Sanctuary
 
+[![Watch Demo Video](https://img.shields.io/badge/Demo_Video-Google_Drive-4285F4?style=for-the-badge&logo=googledrive&logoColor=white)](https://drive.google.com/file/d/1W7XOECkDIiNb5yS50zCrg3aRdCY7x785/view?usp=drive_link)
+[![Live Demo](https://img.shields.io/badge/Live_App-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://mem-brain-nu.vercel.app)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](LICENSE)
+
+---
+
+## 🎬 Demo Video
+
+Watch a complete walkthrough of MemBrain in action — showcasing real-time stream-of-consciousness capture, automatic Gemini semantic decomposition, Pinecone vector indexing, and dual-memory conversational retrieval:
+
+> 📺 **[Watch the MemBrain Walkthrough Video on Google Drive](https://drive.google.com/file/d/1W7XOECkDIiNb5yS50zCrg3aRdCY7x785/view?usp=drive_link)**
+
 ---
 
 ## 📌 Problem Statement
@@ -211,6 +223,10 @@ All sensitive values are stored in `backend/.env`. An example template is provid
 ---
 
 ## 🌐 Deployment
+
+- **Live Application:** [https://mem-brain-nu.vercel.app](https://mem-brain-nu.vercel.app)
+- **API Server:** [https://membrain-api.onrender.com](https://membrain-api.onrender.com)
+- **Demo Walkthrough:** [Google Drive Video](https://drive.google.com/file/d/1W7XOECkDIiNb5yS50zCrg3aRdCY7x785/view?usp=drive_link)
 
 ### 1. Database Deployment
 - **PostgreSQL:** Deploy on [Supabase](https://supabase.com/), [Neon](https://neon.tech/), or [AWS RDS]. Run the contents of `backend/schema.sql` via the provider's SQL editor.
